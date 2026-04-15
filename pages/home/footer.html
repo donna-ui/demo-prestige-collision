@@ -101,11 +101,17 @@
         setTimeout(function(){
           word.innerHTML = stages[idx] + '<span class="dot">.</span>';
           word.classList.remove('swap-out');
-          // force reflow so animation restarts
           void word.offsetWidth;
           word.classList.add('swap-in');
         }, 160);
       }
+    }
+
+    // Cinematic exit: fade everything out during last ~12% of opener scroll
+    var sticky = opener.querySelector('.opener__sticky');
+    if (sticky) {
+      var exiting = p > 0.88;
+      if (sticky.classList.contains('is-exit') !== exiting) sticky.classList.toggle('is-exit', exiting);
     }
   }
 
@@ -115,6 +121,31 @@
   if (!reduced) {
     window.addEventListener('scroll', onScroll, { passive: true });
     applyOpener();
+  }
+
+  /* ---------- HERO ENTRANCE + PARALLAX ---------- */
+  var heroEl = document.getElementById('hero');
+  var heroPhoto = document.getElementById('heroPhoto');
+  if (heroEl) {
+    var hio = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting) { heroEl.classList.add('is-in'); hio.unobserve(heroEl); }
+      });
+    }, { threshold: 0.25 });
+    hio.observe(heroEl);
+  }
+  if (heroPhoto && !reduced) {
+    var hpRaf = false;
+    window.addEventListener('scroll', function(){
+      if (hpRaf) return;
+      hpRaf = true;
+      requestAnimationFrame(function(){
+        var r = heroEl.getBoundingClientRect();
+        var y = Math.max(-100, Math.min(100, -r.top * 0.08));
+        heroPhoto.style.transform = 'translate3d(0,'+y.toFixed(1)+'px,0) scale(1.06)';
+        hpRaf = false;
+      });
+    }, { passive: true });
   }
 
   /* ---------- REVEAL ---------- */
