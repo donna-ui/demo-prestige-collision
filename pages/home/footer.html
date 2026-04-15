@@ -1,8 +1,4 @@
-<!-- ============================================
-     PRESTIGE COLLISION — FOOTER (JS + SCHEMA)
-     Paste into GHL Settings → Tracking Code → FOOTER
-     All scripts only. No markup, no CSS.
-     ============================================ -->
+<!-- PRESTIGE COLLISION — FOOTER SCRIPTS (v2, perf-optimized) -->
 
 <script type="application/ld+json">
 {
@@ -14,32 +10,14 @@
   "url": "https://prestigecollisionanaheim.com",
   "telephone": "+1-714-238-9253",
   "priceRange": "$$",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "3470 E La Palma Ave",
-    "addressLocality": "Anaheim",
-    "addressRegion": "CA",
-    "postalCode": "92806",
-    "addressCountry": "US"
-  },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": 33.8605,
-    "longitude": -117.8686
-  },
+  "address": { "@type": "PostalAddress", "streetAddress": "3470 E La Palma Ave", "addressLocality": "Anaheim", "addressRegion": "CA", "postalCode": "92806", "addressCountry": "US" },
+  "geo": { "@type": "GeoCoordinates", "latitude": 33.8605, "longitude": -117.8686 },
   "openingHoursSpecification": [
     { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "08:00", "closes": "18:00" },
     { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "09:00", "closes": "13:00" }
   ],
-  "sameAs": [
-    "https://www.yelp.com/biz/prestige-collision-auto-body-anaheim-4",
-    "https://www.facebook.com/PrestigeCollisionAutoBodyPaint/"
-  ],
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.5",
-    "reviewCount": "137"
-  },
+  "sameAs": [ "https://www.yelp.com/biz/prestige-collision-auto-body-anaheim-4", "https://www.facebook.com/PrestigeCollisionAutoBodyPaint/" ],
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.5", "reviewCount": "137" },
   "founder": "Ulysses",
   "foundingDate": "2004",
   "areaServed": ["Anaheim","Orange","Fullerton","Yorba Linda","Placentia","Garden Grove"]
@@ -50,23 +28,27 @@
 (function(){
   'use strict';
   var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var touch  = matchMedia('(hover: none), (pointer: coarse)').matches;
+  var touch   = matchMedia('(hover: none), (pointer: coarse)').matches;
+  var narrow  = window.innerWidth < 960;
 
-  /* ---------- CUSTOM CURSOR ---------- */
-  if (!touch) {
+  /* ---------- CUSTOM CURSOR (desktop + wide only) ---------- */
+  if (!touch && !narrow) {
     var dot = document.getElementById('cursor-dot');
     var trail = document.getElementById('cursor-trail');
     if (dot && trail) {
-      var tx=0, ty=0, dx=0, dy=0, cx=0, cy=0;
-      window.addEventListener('mousemove', function(e){ tx=e.clientX; ty=e.clientY; dx=e.clientX; dy=e.clientY; });
-      function anim(){
-        cx += (tx-cx)*0.18;
-        cy += (ty-cy)*0.18;
-        dot.style.transform   = 'translate('+dx+'px,'+dy+'px) translate(-50%,-50%)';
-        trail.style.transform = 'translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';
-        requestAnimationFrame(anim);
+      var tx=0, ty=0, cx=0, cy=0, ticking=false;
+      window.addEventListener('mousemove', function(e){
+        tx = e.clientX; ty = e.clientY;
+        dot.style.transform = 'translate3d('+tx+'px,'+ty+'px,0) translate(-50%,-50%)';
+        if (!ticking) { requestAnimationFrame(updateTrail); ticking = true; }
+      }, { passive: true });
+      function updateTrail(){
+        cx += (tx-cx)*0.2;
+        cy += (ty-cy)*0.2;
+        trail.style.transform = 'translate3d('+cx+'px,'+cy+'px,0) translate(-50%,-50%)';
+        if (Math.abs(tx-cx) > 0.5 || Math.abs(ty-cy) > 0.5) requestAnimationFrame(updateTrail);
+        else ticking = false;
       }
-      anim();
       document.querySelectorAll('a,button,.chip,.tag').forEach(function(el){
         el.addEventListener('mouseenter', function(){ document.body.classList.add('cursor-big'); });
         el.addEventListener('mouseleave', function(){ document.body.classList.remove('cursor-big'); });
@@ -74,61 +56,65 @@
     }
   }
 
-  /* ---------- HERO RESURRECTION SCROLL ---------- */
-  var hero   = document.getElementById('hero');
-  var car    = document.getElementById('heroCar');
-  var sweep  = document.getElementById('heroSweep');
-  var stage  = document.getElementById('heroStage');
-  var sig    = document.getElementById('heroSig');
-  var stages = ['COLLISION','STRIP','STRAIGHTEN','PRIME','COLOR','DELIVERED'];
-  var lastStage = -1;
+  /* ---------- HERO SCROLL (opacity-only, rAF-throttled) ---------- */
+  var hero    = document.getElementById('hero');
+  var finalL  = document.getElementById('heroFinal');
+  var sweep   = document.getElementById('heroSweep');
+  var stage   = document.getElementById('heroStage');
+  var stageN  = document.getElementById('heroStageNum');
+  var sig     = document.getElementById('heroSig');
+  var stages  = ['COLLISION','STRIP','STRAIGHTEN','PRIME','COLOR','DELIVERED'];
+  var lastIdx = -1;
+  var rafPending = false;
+  var cachedTotal = 0;
 
-  function onHeroScroll(){
-    if (!hero || !car) return;
+  function measureHero(){ if (hero) cachedTotal = hero.offsetHeight - window.innerHeight; }
+  measureHero();
+  window.addEventListener('resize', measureHero, { passive: true });
+
+  function applyHero(){
+    rafPending = false;
+    if (!hero || !finalL) return;
     var rect = hero.getBoundingClientRect();
-    var total = hero.offsetHeight - window.innerHeight;
-    if (total <= 0) return;
-    var p = Math.min(Math.max(-rect.top / total, 0), 1); // 0 → 1
+    if (cachedTotal <= 0) return;
+    var p = Math.min(Math.max(-rect.top / cachedTotal, 0), 1);
 
-    // Filter progression
-    var g = (1 - p);                            // grayscale
-    var br = 0.25 + p * 0.85;                   // brightness
-    var bl = (1 - p) * 3;                       // blur
-    var sat = 0.4 + p * 0.8;                    // saturate
-    var scale = 1.05 - p * 0.08;                // zoom out slightly
-    car.style.filter = 'grayscale('+g.toFixed(2)+') brightness('+br.toFixed(2)+') blur('+bl.toFixed(2)+'px) saturate('+sat.toFixed(2)+')';
-    car.style.transform = 'translate(-50%,-50%) scale('+scale.toFixed(3)+')';
+    // Only update if user can see hero (rect.bottom > 0)
+    if (rect.bottom < -window.innerHeight) return;
 
-    // Paint sweep appears between 0.45 and 0.8
+    finalL.style.opacity = p.toFixed(3);
+
     if (sweep) {
       var sp = Math.min(Math.max((p - 0.45) / 0.35, 0), 1);
-      sweep.style.transform = 'translateX('+((sp-1)*100)+'%)';
-      sweep.style.opacity = sp < 1 ? '1' : '0';
+      sweep.style.transform = 'translate3d('+((sp-1)*110)+'%,0,0)';
+      sweep.style.opacity = (sp > 0 && sp < 1) ? '1' : '0';
     }
 
-    // Stage label
-    var idx = Math.min(stages.length - 1, Math.floor(p * stages.length));
-    if (idx !== lastStage) {
-      lastStage = idx;
-      if (stage) stage.textContent = stages[idx];
+    var idx = Math.min(stages.length - 1, Math.floor(p * stages.length * .9999));
+    if (idx !== lastIdx) {
+      lastIdx = idx;
+      if (stage)  stage.textContent  = stages[idx];
+      if (stageN) stageN.textContent = String(idx+1).padStart(2,'0') + ' / 0' + stages.length;
     }
-
-    // Signature appears near the end
     if (sig) sig.style.opacity = p > 0.82 ? '1' : '0';
   }
+
+  function onScroll(){
+    if (!rafPending) { rafPending = true; requestAnimationFrame(applyHero); }
+  }
   if (!reduced) {
-    window.addEventListener('scroll', onHeroScroll, { passive: true });
-    onHeroScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    applyHero();
+  } else if (finalL) {
+    finalL.style.opacity = 1;
   }
 
-  /* ---------- REVEAL ON SCROLL ---------- */
+  /* ---------- REVEAL ---------- */
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(en){
       if (en.isIntersecting) {
         en.target.classList.add('in');
-        if (en.target.classList.contains('reveal-voice')) {
-          en.target.classList.add('revealed');
-        }
+        if (en.target.classList.contains('reveal-voice')) en.target.classList.add('revealed');
         io.unobserve(en.target);
       }
     });
@@ -136,21 +122,22 @@
   document.querySelectorAll('.reveal, .reveal-voice').forEach(function(el){ io.observe(el); });
 
   /* ---------- MAGNETIC NAV CTA ---------- */
-  if (!touch) {
+  if (!touch && !narrow) {
     var cta = document.querySelector('.nav__cta');
     if (cta) {
+      var ctaRaf = false, mx=0, my=0;
       cta.addEventListener('mousemove', function(e){
         var r = cta.getBoundingClientRect();
-        var mx = e.clientX - (r.left + r.width/2);
-        var my = e.clientY - (r.top + r.height/2);
-        cta.style.transform = 'translate('+(mx*0.2)+'px,'+(my*0.25)+'px)';
+        mx = e.clientX - (r.left + r.width/2);
+        my = e.clientY - (r.top + r.height/2);
+        if (!ctaRaf) { ctaRaf = true; requestAnimationFrame(function(){
+          cta.style.transform = 'translate3d('+(mx*0.2)+'px,'+(my*0.25)+'px,0)';
+          ctaRaf = false;
+        });}
       });
       cta.addEventListener('mouseleave', function(){ cta.style.transform = ''; });
     }
   }
-
-  /* ---------- TAG PEGBOARD: STRING LINES (subtle) ---------- */
-  // handled via CSS only
 
   /* ---------- SMOOTH ANCHOR ---------- */
   document.querySelectorAll('a[href^="#"]').forEach(function(a){

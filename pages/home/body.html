@@ -1,29 +1,25 @@
-<!-- ============================================
-     PRESTIGE COLLISION — BODY
-     Paste into GHL Page → Custom HTML element
-     Pure HTML only. No <style>, no <script>.
-     ============================================ -->
+<!-- PRESTIGE COLLISION — BODY (v2) -->
 
 <div id="cursor-trail"></div>
 <div id="cursor-dot"></div>
 
-<!-- NAV -->
 <nav class="nav">
   <a href="#" class="nav__logo">PRESTIGE<span>.</span></a>
   <div class="nav__links">
     <a href="#work">Work</a>
     <a href="#services">Services</a>
-    <a href="#uly">Meet Uly</a>
+    <a href="#shop">The Shop</a>
     <a href="#voices">Reviews</a>
   </div>
-  <a href="tel:+17142389253" class="nav__cta">Call Uly</a>
+  <a href="tel:+17142389253" class="nav__cta">Call the Shop</a>
 </nav>
 
-<!-- HERO — RESURRECTION SCROLL -->
+<!-- HERO -->
 <section class="hero" id="hero">
   <div class="hero__sticky">
     <div class="hero__bg"></div>
-    <div class="hero__car" id="heroCar"></div>
+    <div class="hero__layer hero__layer--damaged" id="heroDamaged"></div>
+    <div class="hero__layer hero__layer--final" id="heroFinal"></div>
     <div class="hero__paint-sweep" id="heroSweep"></div>
     <div class="hero__scan"></div>
 
@@ -33,15 +29,16 @@
     </h1>
 
     <p class="hero__sub">
-      Anaheim's last real body shop. 22 years on La Palma. One guy at the counter. Thousands of cars that shouldn't have made it home.
+      Anaheim's last real body shop. 22 years on East La Palma. A crew that's been together long enough to finish each other's welds.
     </p>
 
     <div class="hero__stage">
       <span class="hero__stage-label" id="heroStage">COLLISION</span>
+      <span class="hero__stage-num" id="heroStageNum">01 / 06</span>
     </div>
 
-    <div class="hero__signature" id="heroSig">
-      — brought back by <span>Uly.</span>
+    <div class="hero__attr" id="heroSig">
+      BROUGHT BACK BY<span>PRESTIGE · ANAHEIM · EST 2004</span>
     </div>
 
     <div class="hero__scroll-hint">SCROLL ↓</div>
@@ -57,21 +54,21 @@
         <path d="M30 10 C18 10, 12 20, 12 32 L12 70 C12 80, 20 88, 30 88 C40 88, 48 80, 48 70 L48 40" stroke="#999" stroke-width="2" stroke-linecap="round"/>
       </svg>
       <div class="workorder__stamp">VERIFIED<br>EST. 2004</div>
-      <div class="workorder__head">FORM 401 — REASONS TO TRUST THIS SHOP</div>
+      <div class="workorder__head">FORM 401 / REASONS TO TRUST THIS SHOP</div>
       <h2 class="workorder__title">WORK ORDER: PRESTIGE</h2>
       <ul class="workorder__list">
-        <li><span class="check">✓</span><span><strong>EST. 2004</strong> 22 years on East La Palma, same building, same phone.</span></li>
-        <li><span class="check">✓</span><span><strong>LIFETIME WARRANTY</strong> on every repair we do. Paint, bodywork, all of it.</span></li>
-        <li><span class="check">✓</span><span><strong>EVERY INSURANCE</strong> Geico, State Farm, AAA, Progressive, Mercury — we file for you.</span></li>
-        <li><span class="check">✓</span><span><strong>FREE ESTIMATES</strong> drop by, text a photo, same-day number. No games.</span></li>
-        <li><span class="check">✓</span><span><strong>FREE TOWING</strong> anywhere in Orange County if you can't drive it in.</span></li>
-        <li><span class="check">✓</span><span><strong>MILITARY · SENIOR · TEACHER</strong> discounts. Not posted — just given.</span></li>
+        <li><span class="workorder__check" aria-hidden="true"></span><span><strong>EST. 2004</strong> 22 years on East La Palma. Same building. Same phone.</span></li>
+        <li><span class="workorder__check" aria-hidden="true"></span><span><strong>LIFETIME WARRANTY</strong> On every repair we do. Paint, bodywork, all of it.</span></li>
+        <li><span class="workorder__check" aria-hidden="true"></span><span><strong>EVERY INSURANCE</strong> Geico, State Farm, AAA, Progressive, Mercury — we file for you.</span></li>
+        <li><span class="workorder__check" aria-hidden="true"></span><span><strong>FREE ESTIMATES</strong> Drop by, text a photo. Same-day number. No games.</span></li>
+        <li><span class="workorder__check" aria-hidden="true"></span><span><strong>FREE TOWING</strong> Anywhere in Orange County if you can't drive it in.</span></li>
+        <li><span class="workorder__check" aria-hidden="true"></span><span><strong>MILITARY · SENIOR · TEACHER</strong> Discounts. Not posted — just given.</span></li>
       </ul>
     </div>
   </div>
 </section>
 
-<!-- SERVICES — PEGBOARD -->
+<!-- SERVICES -->
 <section class="services" id="services">
   <div class="services__inner">
     <div class="services__label">— WHAT ROLLS IN, ROLLS OUT BETTER</div>
@@ -90,7 +87,7 @@
   </div>
 </section>
 
-<!-- THE WALL — PAINT CHIP PORTFOLIO -->
+<!-- THE WALL -->
 <section class="wall" id="work">
   <div class="wall__head">
     <div class="wall__label">— THE WALL · EVERY CHIP IS A JOB</div>
@@ -99,119 +96,113 @@
   </div>
 
   <div class="chip-grid">
-    <a href="#" class="chip c1">
-      <div class="chip__swatch"></div>
-      <div class="chip__hex">PMS 1655</div>
-      <div class="chip__meta">MCLAREN ORANGE<small>'69 Camaro · respray</small></div>
-    </a>
-    <a href="#" class="chip c2">
-      <div class="chip__swatch"></div>
-      <div class="chip__hex">#1F2E4D</div>
-      <div class="chip__meta">MIDNIGHT NAVY<small>'22 F-150 · collision</small></div>
-    </a>
-    <a href="#" class="chip c3">
-      <div class="chip__swatch"></div>
-      <div class="chip__hex">#8B0000</div>
-      <div class="chip__meta">CANDY APPLE<small>'67 Mustang · full restore</small></div>
-    </a>
-    <a href="#" class="chip c4">
-      <div class="chip__swatch"></div>
-      <div class="chip__hex">#F5EFE6</div>
-      <div class="chip__meta">PEARL WHITE<small>'19 Tesla Model 3</small></div>
-    </a>
-    <a href="#" class="chip c5">
-      <div class="chip__swatch"></div>
-      <div class="chip__hex">#0A0A0A</div>
-      <div class="chip__meta">OBSIDIAN<small>'21 BMW M4 · respray</small></div>
-    </a>
-    <a href="#" class="chip c6">
-      <div class="chip__swatch"></div>
-      <div class="chip__hex">#F5C518</div>
-      <div class="chip__meta">SUN YELLOW<small>'68 Camaro SS</small></div>
-    </a>
-    <a href="#" class="chip c7">
-      <div class="chip__swatch"></div>
-      <div class="chip__hex">#2A4D3A</div>
-      <div class="chip__meta">BRITISH RACING<small>'72 MG · custom</small></div>
-    </a>
-    <a href="#" class="chip c8">
-      <div class="chip__swatch"></div>
-      <div class="chip__hex">#7A8A99</div>
-      <div class="chip__meta">GUNMETAL<small>'20 Audi RS5</small></div>
-    </a>
-    <a href="#" class="chip c9">
-      <div class="chip__swatch"></div>
-      <div class="chip__hex">#B0392A</div>
-      <div class="chip__meta">RANGER RED<small>'93 Jeep · JP tribute</small></div>
-    </a>
-    <a href="#" class="chip c10">
-      <div class="chip__swatch"></div>
-      <div class="chip__hex">#E8DFCF</div>
-      <div class="chip__meta">DESERT BONE<small>'66 Bronco · full rebuild</small></div>
-    </a>
+    <a href="#" class="chip c1"><div class="chip__swatch"></div><div class="chip__hex">PMS 1655</div><div class="chip__meta">MCLAREN ORANGE<small>'69 Camaro · respray</small></div></a>
+    <a href="#" class="chip c2"><div class="chip__swatch"></div><div class="chip__hex">#1F2E4D</div><div class="chip__meta">MIDNIGHT NAVY<small>'22 F-150 · collision</small></div></a>
+    <a href="#" class="chip c3"><div class="chip__swatch"></div><div class="chip__hex">#8B0000</div><div class="chip__meta">CANDY APPLE<small>'67 Mustang · full restore</small></div></a>
+    <a href="#" class="chip c4"><div class="chip__swatch"></div><div class="chip__hex">#F5EFE6</div><div class="chip__meta">PEARL WHITE<small>'19 Tesla Model 3</small></div></a>
+    <a href="#" class="chip c5"><div class="chip__swatch"></div><div class="chip__hex">#0A0A0A</div><div class="chip__meta">OBSIDIAN<small>'21 BMW M4 · respray</small></div></a>
+    <a href="#" class="chip c6"><div class="chip__swatch"></div><div class="chip__hex">#F5C518</div><div class="chip__meta">SUN YELLOW<small>'68 Camaro SS</small></div></a>
+    <a href="#" class="chip c7"><div class="chip__swatch"></div><div class="chip__hex">#2A4D3A</div><div class="chip__meta">BRITISH RACING<small>'72 MG · custom</small></div></a>
+    <a href="#" class="chip c8"><div class="chip__swatch"></div><div class="chip__hex">#7A8A99</div><div class="chip__meta">GUNMETAL<small>'20 Audi RS5</small></div></a>
+    <a href="#" class="chip c9"><div class="chip__swatch"></div><div class="chip__hex">#B0392A</div><div class="chip__meta">RANGER RED<small>'93 Jeep · JP tribute</small></div></a>
+    <a href="#" class="chip c10"><div class="chip__swatch"></div><div class="chip__hex">#E8DFCF</div><div class="chip__meta">DESERT BONE<small>'66 Bronco · full rebuild</small></div></a>
   </div>
 </section>
 
-<!-- MEET ULY -->
-<section class="uly" id="uly">
-  <div class="uly__inner">
+<!-- THE SHOP -->
+<section class="shop" id="shop">
+  <div class="shop__inner">
     <div>
-      <div class="uly__eye">— THE GUY AT THE COUNTER</div>
-      <p class="uly__quote">I call you before I touch the car. You pick. Then we paint.</p>
-      <div class="uly__attr">
-        <span class="uly__sig">— Uly</span>
-        <span class="uly__role">OWNER · 22 YEARS</span>
-      </div>
-      <p class="uly__body">
-        Most body shops hand you off to an adjuster and disappear. Prestige doesn't work that way. Uly walks out to your car, looks it over with you, gives you a number the same day, and calls you when there's a choice to make. You're talking to the guy doing the work. That's the whole shop.
+      <div class="shop__label">— THE SHOP · THE CREW · THE WORK</div>
+      <p class="shop__quote">We call before we touch the car. You pick. Then we paint.</p>
+      <div class="shop__attr"><strong>ULYSSES</strong> · OWNER · ESTIMATOR</div>
+      <p class="shop__body">
+        Most body shops hand you off to an adjuster and disappear. Prestige doesn't work that way. Ulysses walks out to your car, looks it over with you, gives you a number the same day. Behind him: a crew that's been together long enough to finish each other's welds. You're talking to the people doing the work.
       </p>
+
+      <div class="shop__roster">
+        <div><strong>ULYSSES</strong>Owner · Estimator</div>
+        <div><strong>The Paint Booth</strong>2 certified painters</div>
+        <div><strong>The Metal Team</strong>3 body techs · frame specialists</div>
+        <div><strong>Front Desk</strong>Insurance &amp; claims</div>
+      </div>
     </div>
 
-    <div class="uly__portrait">
-      <div class="uly__placeholder">PHOTO INCOMING</div>
-      <div class="uly__silhouette">
+    <div class="shop__portrait">
+      <div class="shop__placeholder">SHOP PHOTO · PENDING</div>
+      <div class="shop__silhouette">
         <svg viewBox="0 0 300 400" fill="none" aria-hidden="true">
-          <!-- ball cap + shoulders silhouette -->
           <path d="M70 400 L70 290 Q70 240 110 220 Q150 215 190 220 Q230 240 230 290 L230 400 Z" fill="#05101D" stroke="#FF5A1F" stroke-opacity=".25" stroke-width="1"/>
           <path d="M110 220 Q110 180 150 170 Q190 180 190 220 Z" fill="#05101D"/>
           <ellipse cx="150" cy="165" rx="42" ry="52" fill="#0A1628"/>
-          <!-- cap -->
           <path d="M100 140 Q100 110 150 105 Q200 110 200 140 L200 150 L100 150 Z" fill="#05101D"/>
           <path d="M95 150 L205 150 L215 162 L85 162 Z" fill="#0A1628"/>
-          <!-- rim highlight -->
           <path d="M190 120 Q198 130 198 148" stroke="#FF5A1F" stroke-opacity=".5" stroke-width="2" fill="none"/>
         </svg>
       </div>
-      <div class="uly__years">22<small>YEARS STRONG</small></div>
+      <div class="shop__stamp">22<small>YEARS · ANAHEIM</small></div>
     </div>
   </div>
 </section>
 
-<!-- NOTEBOOK PAGE — HOW IT WORKS -->
-<section class="notebook">
-  <div class="notebook__inner">
-    <div class="notebook__label">— HOW IT ACTUALLY GOES</div>
-    <h2 class="notebook__title">No portal. No runaround.<br><em>Just a phone call.</em></h2>
+<!-- BLUEPRINT PROCESS -->
+<section class="blueprint">
+  <div class="blueprint__inner">
+    <div class="blueprint__label">— HOW IT ACTUALLY GOES</div>
+    <h2 class="blueprint__title">No portal. No runaround.<br><em>Just a phone call.</em></h2>
 
-    <div class="notebook__page reveal">
-      <ol class="notebook__list">
-        <li><span class="num">1.</span><span>You call me. <em>(714) 238-9253</em></span></li>
-        <li><span class="num">2.</span><span>Bring it by — or text me photos. Same-day number.</span></li>
-        <li><span class="num">3.</span><span><span class="xout">Fill out 8 forms</span> I handle your insurance. Every carrier.</span></li>
-        <li><span class="num">4.</span><span>I call you when there's a choice to make. You pick.</span></li>
-        <li><span class="num">5.</span><span>Keys back in your hand. Usually <em>3–5 days.</em></span></li>
+    <div class="blueprint__sheet reveal">
+      <div class="blueprint__head">
+        <span>PROCESS SCHEMATIC</span>
+        <span class="blueprint__spec">PCB · 2026 REV</span>
+        <span>SHEET 1 OF 1</span>
+      </div>
+      <ol class="blueprint__steps">
+        <li>
+          <div>
+            <h4>Call the shop.</h4>
+            <p>Tell us what happened. We'll tell you what to do next. One call, no phone tree.</p>
+          </div>
+          <div class="dur">TIME<strong>~5 MIN</strong></div>
+        </li>
+        <li>
+          <div>
+            <h4>Free estimate, same day.</h4>
+            <p>Bring it in or text us photos. You'll have a written number before the day is out.</p>
+          </div>
+          <div class="dur">TIME<strong>SAME DAY</strong></div>
+        </li>
+        <li>
+          <div>
+            <h4>We file with your insurance.</h4>
+            <p>Every carrier. We handle the paperwork, supplements, the whole adjuster dance.</p>
+          </div>
+          <div class="dur">TIME<strong>24–48 HRS</strong></div>
+        </li>
+        <li>
+          <div>
+            <h4>We call before we decide.</h4>
+            <p>If there's a choice to make — OEM vs aftermarket, repair vs replace — you make it, not us.</p>
+          </div>
+          <div class="dur">TIME<strong>AS NEEDED</strong></div>
+        </li>
+        <li>
+          <div>
+            <h4>Keys back in your hand.</h4>
+            <p>Most jobs out the door in 3–5 working days. Lifetime warranty attached to every one.</p>
+          </div>
+          <div class="dur">TIME<strong>3–5 DAYS</strong></div>
+        </li>
       </ol>
-      <div class="notebook__arrow a1">↖ this is the important one</div>
-      <div class="notebook__arrow a2">every time ↗</div>
     </div>
   </div>
 </section>
 
-<!-- VOICES — SCRATCH REVEAL TESTIMONIALS -->
+<!-- VOICES -->
 <section class="voices" id="voices">
   <div style="max-width:1200px; margin: 0 auto;">
     <div class="voices__label">— WHAT ANAHEIM SAYS</div>
-    <h2 class="voices__title">The reviews don't<br>mention the shop.<br>They mention Uly.</h2>
+    <h2 class="voices__title">137 reviews. 4.5 stars.<br>One answer: this crew<br>actually listens.</h2>
 
     <div class="voices__grid">
       <div class="voice reveal-voice">
@@ -224,7 +215,7 @@
       <div class="voice reveal-voice">
         <div>
           <div class="voice__stars">★★★★★</div>
-          <p class="voice__quote">Uly was patient, clear on timeline and cost. No surprises.</p>
+          <p class="voice__quote">Patient, clear on timeline and cost. No surprises. No runaround.</p>
         </div>
         <div class="voice__attr"><strong>JOHN R.</strong><span>YELP · 5★</span></div>
       </div>
@@ -239,15 +230,15 @@
   </div>
 </section>
 
-<!-- TICKER CTA -->
+<!-- TICKER -->
 <div class="ticker" aria-hidden="true">
   <div class="ticker__track">
-    <a href="tel:+17142389253">CALL ULY</a><span class="dot">·</span>
+    <a href="tel:+17142389253">CALL THE SHOP</a><span class="dot">·</span>
     <a href="tel:+17142389253">(714) 238-9253</a><span class="dot">·</span>
     <span>22 YEARS IN ANAHEIM</span><span class="dot">·</span>
     <span>LIFETIME WARRANTY</span><span class="dot">·</span>
     <span>EVERY INSURANCE ACCEPTED</span><span class="dot">·</span>
-    <a href="tel:+17142389253">CALL ULY</a><span class="dot">·</span>
+    <a href="tel:+17142389253">CALL THE SHOP</a><span class="dot">·</span>
     <a href="tel:+17142389253">(714) 238-9253</a><span class="dot">·</span>
     <span>22 YEARS IN ANAHEIM</span><span class="dot">·</span>
     <span>LIFETIME WARRANTY</span><span class="dot">·</span>
@@ -268,7 +259,7 @@
           <p>3470 E La Palma Ave<br>Anaheim, CA 92806</p>
         </div>
         <div>
-          <h4>CALL ULY</h4>
+          <h4>CALL THE SHOP</h4>
           <a href="tel:+17142389253">(714) 238-9253</a>
         </div>
         <div>
@@ -285,14 +276,14 @@
     </div>
 
     <div class="receipt">
-      <h4>PRESTIGE COLLISION · RECEIPT</h4>
+      <h4>PRESTIGE COLLISION · ESTIMATE</h4>
       <div class="row"><span>FREE ESTIMATE</span><span>$0.00</span></div>
       <div class="row"><span>INSURANCE FILING</span><span>$0.00</span></div>
       <div class="row"><span>FREE TOWING (OC)</span><span>$0.00</span></div>
       <div class="row"><span>HONEST ANSWER</span><span>$0.00</span></div>
       <div class="row"><span>LIFETIME WARRANTY</span><span>INCLUDED</span></div>
       <div class="total"><span>TOTAL COST TO CALL</span><span>$0.00</span></div>
-      <p style="text-align:center;margin-top:16px;font-family:'Gochi Hand',cursive;font-size:18px;line-height:1.1;">— thanks, Uly</p>
+      <div class="receipt__sign">THANK YOU — THE SHOP</div>
     </div>
   </div>
 
@@ -301,5 +292,4 @@
   </div>
 </footer>
 
-<!-- STICKY MOBILE CTA -->
-<a href="tel:+17142389253" class="sticky-cta">📞 CALL ULY · (714) 238-9253</a>
+<a href="tel:+17142389253" class="sticky-cta">CALL THE SHOP · (714) 238-9253</a>
