@@ -236,20 +236,9 @@ body::before {
   opacity: 0;
 }
 
-.hero__stage {
-  position: absolute;
-  left: 6vw; bottom: 9vh;
-  font-family: var(--f-stencil);
-  font-size: clamp(13px, 1.3vw, 17px);
-  color: var(--orange);
-  letter-spacing: .4em;
-  line-height: 1;
-  display: flex; align-items: center; gap: 14px;
-  opacity: 0;
-  transition: opacity .5s var(--ease);
-  z-index: 4;
-}
-.hero.hero--final .hero__stage { opacity: 1; }
+.hero__stage { display: none; }
+.hero__attr { display: none; }
+.hero.hero--final .hero__scroll-hint { opacity: 0; transition: opacity .5s var(--ease); }
 .hero__stage::before {
   content: ""; display: block;
   width: 48px; height: 2px;
@@ -346,11 +335,12 @@ body::before {
 .hero__ctas {
   position: absolute;
   left: 6vw;
-  bottom: 16vh;
+  top: calc(18vh + clamp(260px, 38vw, 540px));
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
-  z-index: 3;
+  z-index: 4;
+  max-width: 640px;
 }
 .hero__ctas .btn {
   font-family: var(--f-stencil);
