@@ -18,7 +18,8 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+<link rel="preload" as="image" fetchpriority="high" href="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=2000&q=70&auto=format&fit=crop">
 <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Allerta+Stencil&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400;1,6..72,700&family=Public+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
 
 <style>
@@ -80,7 +81,8 @@ body {
 }
 
 /* content-visibility for perf on long sections */
-section { content-visibility: auto; contain-intrinsic-size: auto 700px; }
+section { contain: layout style; }
+section.workorder, section.services, section.wall, section.shop, section.blueprint, section.voices { content-visibility: auto; contain-intrinsic-size: auto 700px; }
 
 /* ===== GLOBAL GRAIN (smaller, lighter) ===== */
 body::before {
@@ -168,7 +170,7 @@ body::before {
 /* ===== HERO — RESURRECTION (opacity-only, perf-safe) ===== */
 .hero {
   position: relative;
-  height: 320vh;
+  height: 220vh;
 }
 .hero__sticky {
   position: sticky; top: 0;
@@ -288,6 +290,33 @@ body::before {
   padding-left: 20px;
 }
 
+.hero__ctas {
+  position: absolute;
+  left: 6vw;
+  bottom: 16vh;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  z-index: 3;
+}
+.hero__ctas .btn {
+  font-family: var(--f-stencil);
+  letter-spacing: .15em;
+  font-size: 12px;
+  padding: 14px 22px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: transform .2s, background .2s, color .2s;
+  display: inline-flex; align-items: center; gap: 10px;
+  will-change: transform;
+}
+.hero__ctas .btn--primary { background: var(--orange); color: var(--navy); border: 2px solid var(--orange); }
+.hero__ctas .btn--primary:hover { transform: translateY(-2px); }
+.hero__ctas .btn--ghost { background: transparent; color: var(--cream); border: 2px solid rgba(245,239,230,.4); }
+.hero__ctas .btn--ghost:hover { border-color: var(--orange); color: var(--orange); }
+.hero__ctas .btn small { font-size: 10px; opacity: .7; letter-spacing: .1em; }
+@media (max-width: 700px) { .hero__ctas { bottom: 20vh; left: 5vw; } .hero__ctas .btn { font-size: 11px; padding: 12px 16px; } }
+
 .hero__attr {
   position: absolute;
   right: 5vw; bottom: 11vh;
@@ -314,7 +343,7 @@ body::before {
 }
 
 @media (max-width: 700px) {
-  .hero { height: 260vh; }
+  .hero { height: 180vh; }
   .hero__title { top: 14vh; font-size: clamp(42px, 14vw, 80px); }
   .hero__sub { top: auto; bottom: 24vh; font-size: 15px; padding-left: 14px; }
   .hero__stage { left: 5vw; bottom: 16vh; font-size: 11px; }
@@ -782,7 +811,7 @@ body::before {
     <a href="#shop">The Shop</a>
     <a href="#voices">Reviews</a>
   </div>
-  <a href="tel:+17142389253" class="nav__cta">Call the Shop</a>
+  <a href="#book" class="nav__cta">Book Estimate</a>
 </nav>
 
 <!-- HERO -->
@@ -800,8 +829,14 @@ body::before {
     </h1>
 
     <p class="hero__sub">
-      Anaheim's last real body shop. 22 years on East La Palma. A crew that's been together long enough to finish each other's welds.
+      Anaheim's last real body shop. 22 years on East La Palma. Free estimate in 60 seconds — pick a time, we handle the rest.
     </p>
+
+    <div class="hero__ctas">
+      <a href="#book" class="btn btn--primary">Book Free Estimate →</a>
+      <a href="#tow" class="btn btn--ghost">Need a tow?</a>
+      <a href="tel:+17142389253" class="btn btn--ghost">Or call <small>(714) 238-9253</small></a>
+    </div>
 
     <div class="hero__stage">
       <span class="hero__stage-label" id="heroStage">COLLISION</span>
@@ -885,10 +920,10 @@ body::before {
   <div class="shop__inner">
     <div>
       <div class="shop__label">— THE SHOP · THE CREW · THE WORK</div>
-      <p class="shop__quote">We call before we touch the car. You pick. Then we paint.</p>
+      <p class="shop__quote">We confirm every choice before we touch the car. You pick. Then we paint.</p>
       <div class="shop__attr"><strong>ULYSSES</strong> · OWNER · ESTIMATOR</div>
       <p class="shop__body">
-        Most body shops hand you off to an adjuster and disappear. Prestige doesn't work that way. Ulysses walks out to your car, looks it over with you, gives you a number the same day. Behind him: a crew that's been together long enough to finish each other's welds. You're talking to the people doing the work.
+        Most body shops hand you off to an adjuster and disappear. Prestige doesn't work that way. Book online in 60 seconds — pick your time, tell us what happened, upload a photo. Ulysses reviews it personally and comes back with a number the same day. Behind him: a crew that's been together long enough to finish each other's welds. You're talking to the people doing the work.
       </p>
 
       <div class="shop__roster">
@@ -920,7 +955,7 @@ body::before {
 <section class="blueprint">
   <div class="blueprint__inner">
     <div class="blueprint__label">— HOW IT ACTUALLY GOES</div>
-    <h2 class="blueprint__title">No portal. No runaround.<br><em>Just a phone call.</em></h2>
+    <h2 class="blueprint__title">Three clicks. No runaround.<br><em>Book it online.</em></h2>
 
     <div class="blueprint__sheet reveal">
       <div class="blueprint__head">
@@ -931,15 +966,22 @@ body::before {
       <ol class="blueprint__steps">
         <li>
           <div>
-            <h4>Call the shop.</h4>
-            <p>Tell us what happened. We'll tell you what to do next. One call, no phone tree.</p>
+            <h4>Pick what you need.</h4>
+            <p>Estimate, tow, drop-off, or custom quote. Three clicks. Free tow anywhere in OC if you can't drive it in.</p>
           </div>
-          <div class="dur">TIME<strong>~5 MIN</strong></div>
+          <div class="dur">TIME<strong>~60 SEC</strong></div>
         </li>
         <li>
           <div>
-            <h4>Free estimate, same day.</h4>
-            <p>Bring it in or text us photos. You'll have a written number before the day is out.</p>
+            <h4>Pick your time.</h4>
+            <p>Live calendar. No phone tag. Drop-off windows every 30 minutes, Monday through Saturday.</p>
+          </div>
+          <div class="dur">TIME<strong>~30 SEC</strong></div>
+        </li>
+        <li>
+          <div>
+            <h4>Written estimate, same day.</h4>
+            <p>Upload a photo with your booking — we send a written number before the day is out.</p>
           </div>
           <div class="dur">TIME<strong>SAME DAY</strong></div>
         </li>
@@ -949,13 +991,6 @@ body::before {
             <p>Every carrier. We handle the paperwork, supplements, the whole adjuster dance.</p>
           </div>
           <div class="dur">TIME<strong>24–48 HRS</strong></div>
-        </li>
-        <li>
-          <div>
-            <h4>We call before we decide.</h4>
-            <p>If there's a choice to make — OEM vs aftermarket, repair vs replace — you make it, not us.</p>
-          </div>
-          <div class="dur">TIME<strong>AS NEEDED</strong></div>
         </li>
         <li>
           <div>
@@ -1004,13 +1039,13 @@ body::before {
 <!-- TICKER -->
 <div class="ticker" aria-hidden="true">
   <div class="ticker__track">
-    <a href="tel:+17142389253">CALL THE SHOP</a><span class="dot">·</span>
-    <a href="tel:+17142389253">(714) 238-9253</a><span class="dot">·</span>
+    <a href="#book">BOOK FREE ESTIMATE</a><span class="dot">·</span>
+    <span>60-SECOND ONLINE BOOKING</span><span class="dot">·</span>
     <span>22 YEARS IN ANAHEIM</span><span class="dot">·</span>
     <span>LIFETIME WARRANTY</span><span class="dot">·</span>
     <span>EVERY INSURANCE ACCEPTED</span><span class="dot">·</span>
-    <a href="tel:+17142389253">CALL THE SHOP</a><span class="dot">·</span>
-    <a href="tel:+17142389253">(714) 238-9253</a><span class="dot">·</span>
+    <a href="#book">BOOK FREE ESTIMATE</a><span class="dot">·</span>
+    <span>60-SECOND ONLINE BOOKING</span><span class="dot">·</span>
     <span>22 YEARS IN ANAHEIM</span><span class="dot">·</span>
     <span>LIFETIME WARRANTY</span><span class="dot">·</span>
     <span>EVERY INSURANCE ACCEPTED</span><span class="dot">·</span>
@@ -1030,8 +1065,9 @@ body::before {
           <p>3470 E La Palma Ave<br>Anaheim, CA 92806</p>
         </div>
         <div>
-          <h4>CALL THE SHOP</h4>
-          <a href="tel:+17142389253">(714) 238-9253</a>
+          <h4>BOOK ONLINE</h4>
+          <a href="#book">Schedule Estimate →</a>
+          <p style="font-size:13px; margin-top:4px; color:rgba(21,23,28,.6);">or call (714) 238-9253</p>
         </div>
         <div>
           <h4>HOURS</h4>
@@ -1063,7 +1099,7 @@ body::before {
   </div>
 </footer>
 
-<a href="tel:+17142389253" class="sticky-cta">CALL THE SHOP · (714) 238-9253</a>
+<a href="#book" class="sticky-cta">BOOK FREE ESTIMATE →</a>
 <!-- PRESTIGE COLLISION — FOOTER SCRIPTS (v2, perf-optimized) -->
 
 <script type="application/ld+json">
@@ -1143,7 +1179,9 @@ body::before {
     if (!hero || !finalL) return;
     var rect = hero.getBoundingClientRect();
     if (cachedTotal <= 0) return;
-    var p = Math.min(Math.max(-rect.top / cachedTotal, 0), 1);
+    var raw = Math.min(Math.max(-rect.top / cachedTotal, 0), 1);
+    // ease-out so early scroll = visible change
+    var p = 1 - Math.pow(1 - raw, 1.8);
 
     // Only update if user can see hero (rect.bottom > 0)
     if (rect.bottom < -window.innerHeight) return;

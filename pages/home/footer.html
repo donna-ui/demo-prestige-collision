@@ -77,7 +77,9 @@
     if (!hero || !finalL) return;
     var rect = hero.getBoundingClientRect();
     if (cachedTotal <= 0) return;
-    var p = Math.min(Math.max(-rect.top / cachedTotal, 0), 1);
+    var raw = Math.min(Math.max(-rect.top / cachedTotal, 0), 1);
+    // ease-out so early scroll = visible change
+    var p = 1 - Math.pow(1 - raw, 1.8);
 
     // Only update if user can see hero (rect.bottom > 0)
     if (rect.bottom < -window.innerHeight) return;
