@@ -63,6 +63,7 @@
   var stage   = document.getElementById('heroStage');
   var stageN  = document.getElementById('heroStageNum');
   var sig     = document.getElementById('heroSig');
+  var megaWords = document.querySelectorAll('.hero__mega-word');
   var stages  = ['COLLISION','STRIP','STRAIGHTEN','PRIME','COLOR','DELIVERED'];
   var lastIdx = -1;
   var rafPending = false;
@@ -92,13 +93,25 @@
       sweep.style.opacity = (sp > 0 && sp < 1) ? '1' : '0';
     }
 
-    var idx = Math.min(stages.length - 1, Math.floor(p * stages.length * .9999));
+    // Stage word covers 0 → 0.85; last 15% reveals the title.
+    var megaP = Math.min(p / 0.85, 1);
+    var idx = Math.min(stages.length - 1, Math.floor(megaP * stages.length * .9999));
     if (idx !== lastIdx) {
       lastIdx = idx;
       if (stage)  stage.textContent  = stages[idx];
       if (stageN) stageN.textContent = String(idx+1).padStart(2,'0') + ' / 0' + stages.length;
+      megaWords.forEach(function(w, i){
+        w.classList.toggle('is-active', i === idx);
+        w.classList.toggle('is-past',   i <  idx);
+      });
     }
-    if (sig) sig.style.opacity = p > 0.82 ? '1' : '0';
+
+    var isFinal = p > 0.85;
+    if (hero.classList.contains('hero--final') !== isFinal) {
+      hero.classList.toggle('hero--final', isFinal);
+    }
+
+    if (sig) sig.style.opacity = p > 0.92 ? '1' : '0';
   }
 
   function onScroll(){

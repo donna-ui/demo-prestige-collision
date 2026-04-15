@@ -170,7 +170,7 @@ body::before {
 /* ===== HERO — RESURRECTION (opacity-only, perf-safe) ===== */
 .hero {
   position: relative;
-  height: 220vh;
+  height: 340vh;
 }
 .hero__sticky {
   position: sticky; top: 0;
@@ -245,7 +245,11 @@ body::before {
   letter-spacing: .4em;
   line-height: 1;
   display: flex; align-items: center; gap: 14px;
+  opacity: 0;
+  transition: opacity .5s var(--ease);
+  z-index: 4;
 }
+.hero.hero--final .hero__stage { opacity: 1; }
 .hero__stage::before {
   content: ""; display: block;
   width: 48px; height: 2px;
@@ -258,6 +262,45 @@ body::before {
   margin-left: 8px;
 }
 
+.hero__mega {
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 3;
+}
+.hero__mega-word {
+  font-family: var(--f-stencil);
+  font-size: clamp(80px, 22vw, 340px);
+  line-height: .85;
+  letter-spacing: .02em;
+  color: var(--cream);
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: opacity .35s var(--ease), transform .55s var(--ease), letter-spacing .55s var(--ease);
+  mix-blend-mode: difference;
+  opacity: 0;
+  transform: translateY(40px) scale(.9);
+  position: absolute;
+  will-change: opacity, transform;
+  text-align: center;
+}
+.hero__mega-word.is-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  letter-spacing: .04em;
+}
+.hero__mega-word.is-past {
+  opacity: 0;
+  transform: translateY(-50px) scale(1.08);
+}
+.hero__mega-word .dot {
+  color: var(--orange);
+  -webkit-text-stroke: 0;
+}
+
 .hero__title {
   position: absolute;
   left: 6vw; right: 6vw;
@@ -268,7 +311,12 @@ body::before {
   color: var(--cream);
   pointer-events: none;
   letter-spacing: -.01em;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity .8s var(--ease), transform .8s var(--ease);
+  z-index: 4;
 }
+.hero.hero--final .hero__title { opacity: 1; transform: none; }
 .hero__title em {
   font-style: normal;
   color: var(--orange);
@@ -284,11 +332,16 @@ body::before {
   font-style: italic;
   font-size: clamp(17px, 1.6vw, 22px);
   color: var(--cream);
-  opacity: .88;
+  opacity: 0;
   line-height: 1.45;
   border-left: 3px solid var(--orange);
   padding-left: 20px;
+  transition: opacity .8s var(--ease) .1s;
+  z-index: 4;
 }
+.hero.hero--final .hero__sub { opacity: .88; }
+.hero.hero--final .hero__ctas { opacity: 1; transform: none; }
+.hero__ctas { opacity: 0; transform: translateY(16px); transition: opacity .7s var(--ease) .2s, transform .7s var(--ease) .2s; }
 
 .hero__ctas {
   position: absolute;
@@ -343,7 +396,7 @@ body::before {
 }
 
 @media (max-width: 700px) {
-  .hero { height: 180vh; }
+  .hero { height: 280vh; }
   .hero__title { top: 14vh; font-size: clamp(42px, 14vw, 80px); }
   .hero__sub { top: auto; bottom: 24vh; font-size: 15px; padding-left: 14px; }
   .hero__stage { left: 5vw; bottom: 16vh; font-size: 11px; }
@@ -823,6 +876,15 @@ body::before {
     <div class="hero__paint-sweep" id="heroSweep"></div>
     <div class="hero__scan"></div>
 
+    <div class="hero__mega" aria-hidden="true">
+      <span class="hero__mega-word" data-s="0">COLLISION<span class="dot">.</span></span>
+      <span class="hero__mega-word" data-s="1">STRIP<span class="dot">.</span></span>
+      <span class="hero__mega-word" data-s="2">STRAIGHTEN<span class="dot">.</span></span>
+      <span class="hero__mega-word" data-s="3">PRIME<span class="dot">.</span></span>
+      <span class="hero__mega-word" data-s="4">COLOR<span class="dot">.</span></span>
+      <span class="hero__mega-word" data-s="5">DELIVERED<span class="dot">.</span></span>
+    </div>
+
     <h1 class="hero__title">
       We bring<br>
       <em>cars back.</em>
@@ -1165,6 +1227,7 @@ body::before {
   var stage   = document.getElementById('heroStage');
   var stageN  = document.getElementById('heroStageNum');
   var sig     = document.getElementById('heroSig');
+  var megaWords = document.querySelectorAll('.hero__mega-word');
   var stages  = ['COLLISION','STRIP','STRAIGHTEN','PRIME','COLOR','DELIVERED'];
   var lastIdx = -1;
   var rafPending = false;
@@ -1194,13 +1257,25 @@ body::before {
       sweep.style.opacity = (sp > 0 && sp < 1) ? '1' : '0';
     }
 
-    var idx = Math.min(stages.length - 1, Math.floor(p * stages.length * .9999));
+    // Stage word covers 0 → 0.85; last 15% reveals the title.
+    var megaP = Math.min(p / 0.85, 1);
+    var idx = Math.min(stages.length - 1, Math.floor(megaP * stages.length * .9999));
     if (idx !== lastIdx) {
       lastIdx = idx;
       if (stage)  stage.textContent  = stages[idx];
       if (stageN) stageN.textContent = String(idx+1).padStart(2,'0') + ' / 0' + stages.length;
+      megaWords.forEach(function(w, i){
+        w.classList.toggle('is-active', i === idx);
+        w.classList.toggle('is-past',   i <  idx);
+      });
     }
-    if (sig) sig.style.opacity = p > 0.82 ? '1' : '0';
+
+    var isFinal = p > 0.85;
+    if (hero.classList.contains('hero--final') !== isFinal) {
+      hero.classList.toggle('hero--final', isFinal);
+    }
+
+    if (sig) sig.style.opacity = p > 0.92 ? '1' : '0';
   }
 
   function onScroll(){
