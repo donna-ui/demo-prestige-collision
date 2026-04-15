@@ -56,72 +56,65 @@
     }
   }
 
-  /* ---------- HERO SCROLL (opacity-only, rAF-throttled) ---------- */
-  var hero    = document.getElementById('hero');
-  var finalL  = document.getElementById('heroFinal');
-  var sweep   = document.getElementById('heroSweep');
-  var stage   = document.getElementById('heroStage');
-  var stageN  = document.getElementById('heroStageNum');
-  var sig     = document.getElementById('heroSig');
-  var megaWords = document.querySelectorAll('.hero__mega-word');
-  var stages  = ['COLLISION','STRIP','STRAIGHTEN','PRIME','COLOR','DELIVERED'];
-  var lastIdx = -1;
-  var rafPending = false;
-  var cachedTotal = 0;
+  /* ---------- OPENING SEQUENCE ---------- */
+  var opener = document.getElementById('opener');
+  var car    = document.getElementById('openerCar');
+  var word   = document.getElementById('openerWord');
+  var numEl  = document.getElementById('openerNum');
+  var fillEl = document.getElementById('openerFill');
+  var stages = ['COLLISION','STRIP','STRAIGHTEN','PRIME','COLOR','DELIVERED'];
+  var lastIdx = -1, rafPending = false, openTotal = 0;
 
-  function measureHero(){ if (hero) cachedTotal = hero.offsetHeight - window.innerHeight; }
-  measureHero();
-  window.addEventListener('resize', measureHero, { passive: true });
+  function measureOpener(){ if (opener) openTotal = opener.offsetHeight - window.innerHeight; }
+  measureOpener();
+  window.addEventListener('resize', measureOpener, { passive: true });
 
-  function applyHero(){
+  function applyOpener(){
     rafPending = false;
-    if (!hero || !finalL) return;
-    var rect = hero.getBoundingClientRect();
-    if (cachedTotal <= 0) return;
-    var raw = Math.min(Math.max(-rect.top / cachedTotal, 0), 1);
-    // ease-out so early scroll = visible change
-    var p = 1 - Math.pow(1 - raw, 1.8);
+    if (!opener) return;
+    var rect = opener.getBoundingClientRect();
+    if (openTotal <= 0) return;
+    var p = Math.min(Math.max(-rect.top / openTotal, 0), 1);
 
-    // Only update if user can see hero (rect.bottom > 0)
-    if (rect.bottom < -window.innerHeight) return;
+    if (rect.bottom < -40) return;
 
-    finalL.style.opacity = p.toFixed(3);
+    // progress bar
+    if (fillEl) fillEl.style.width = (p * 100).toFixed(2) + '%';
 
-    if (sweep) {
-      var sp = Math.min(Math.max((p - 0.45) / 0.35, 0), 1);
-      sweep.style.transform = 'translate3d('+((sp-1)*110)+'%,0,0)';
-      sweep.style.opacity = (sp > 0 && sp < 1) ? '1' : '0';
+    // car filter evolves with progress (dark broken → bright gleaming)
+    if (car) {
+      var g  = (1 - p).toFixed(2);
+      var br = (0.22 + p * 0.85).toFixed(2);
+      var sa = (0.3  + p * 0.9).toFixed(2);
+      var op = (0.7  + p * 0.3).toFixed(2);
+      car.style.filter  = 'grayscale('+g+') brightness('+br+') contrast(1.15) saturate('+sa+')';
+      car.style.opacity = op;
     }
 
-    // Stage word covers 0 → 0.85; last 15% reveals the title.
-    var megaP = Math.min(p / 0.85, 1);
-    var idx = Math.min(stages.length - 1, Math.floor(megaP * stages.length * .9999));
+    var idx = Math.min(stages.length - 1, Math.floor(p * stages.length * .9999));
     if (idx !== lastIdx) {
       lastIdx = idx;
-      if (stage)  stage.textContent  = stages[idx];
-      if (stageN) stageN.textContent = String(idx+1).padStart(2,'0') + ' / 0' + stages.length;
-      megaWords.forEach(function(w, i){
-        w.classList.toggle('is-active', i === idx);
-        w.classList.toggle('is-past',   i <  idx);
-      });
+      if (numEl) numEl.textContent = String(idx+1).padStart(2,'0');
+      if (word) {
+        word.classList.remove('swap-in');
+        word.classList.add('swap-out');
+        setTimeout(function(){
+          word.innerHTML = stages[idx] + '<span class="dot">.</span>';
+          word.classList.remove('swap-out');
+          // force reflow so animation restarts
+          void word.offsetWidth;
+          word.classList.add('swap-in');
+        }, 160);
+      }
     }
-
-    var isFinal = p > 0.85;
-    if (hero.classList.contains('hero--final') !== isFinal) {
-      hero.classList.toggle('hero--final', isFinal);
-    }
-
-    if (sig) sig.style.opacity = p > 0.92 ? '1' : '0';
   }
 
   function onScroll(){
-    if (!rafPending) { rafPending = true; requestAnimationFrame(applyHero); }
+    if (!rafPending) { rafPending = true; requestAnimationFrame(applyOpener); }
   }
   if (!reduced) {
     window.addEventListener('scroll', onScroll, { passive: true });
-    applyHero();
-  } else if (finalL) {
-    finalL.style.opacity = 1;
+    applyOpener();
   }
 
   /* ---------- REVEAL ---------- */

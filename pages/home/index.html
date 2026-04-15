@@ -167,180 +167,203 @@ body::before {
   .nav { padding: 14px 5vw; }
 }
 
-/* ===== HERO — RESURRECTION (opacity-only, perf-safe) ===== */
-.hero {
+/* ===== OPENER — SCROLL-LOCKED TYPOGRAPHIC SEQUENCE ===== */
+.opener {
   position: relative;
-  height: 340vh;
+  height: 280vh;
 }
-.hero__sticky {
+.opener__sticky {
   position: sticky; top: 0;
   height: 100vh;
   overflow: hidden;
   background: var(--navy);
   contain: layout paint;
-}
-.hero__bg {
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse at 50% 40%, rgba(255,90,31,.18) 0%, transparent 60%),
-    linear-gradient(180deg, var(--navy) 0%, #050d17 100%);
-}
-.hero__scan {
-  position: absolute; inset: 0;
-  background: repeating-linear-gradient(0deg, transparent 0, transparent 3px, rgba(245,239,230,.012) 3px, rgba(245,239,230,.012) 4px);
-  pointer-events: none;
-  mix-blend-mode: overlay;
-}
-
-/* Two layered car images — only opacity changes on scroll */
-.hero__layer {
-  position: absolute;
-  left: 50%; top: 50%;
-  transform: translate3d(-50%, -50%, 0);
-  width: min(1400px, 95vw);
-  aspect-ratio: 16/9;
-  background: center/cover no-repeat;
-  will-change: opacity;
-}
-.hero__layer--damaged {
-  background-image: url("https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=2000&q=70&auto=format&fit=crop");
-  filter: grayscale(1) brightness(.25) contrast(1.1);
-}
-.hero__layer--damaged::after {
-  content: "";
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse at 50% 60%, transparent 30%, rgba(0,0,0,.75) 85%),
-    linear-gradient(180deg, rgba(0,0,0,.3) 0%, transparent 40%);
-}
-.hero__layer--final {
-  background-image: url("https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=2000&q=85&auto=format&fit=crop");
-  filter: saturate(1.15) contrast(1.05);
-  opacity: 0;
-}
-.hero__layer--final::after {
-  content: "";
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 50% 70%, transparent 40%, rgba(5,13,23,.6) 95%);
-}
-
-.hero__paint-sweep {
-  position: absolute;
-  left: 0; right: 0; top: 0;
-  height: 100%;
-  background: linear-gradient(105deg, rgba(255,90,31,0) 42%, rgba(255,90,31,.55) 50%, rgba(255,90,31,0) 58%);
-  mix-blend-mode: screen;
-  transform: translate3d(-110%,0,0);
-  pointer-events: none;
-  will-change: transform, opacity;
-  opacity: 0;
-}
-
-.hero__stage { display: none; }
-.hero__attr { display: none; }
-.hero.hero--final .hero__scroll-hint { opacity: 0; transition: opacity .5s var(--ease); }
-.hero__stage::before {
-  content: ""; display: block;
-  width: 48px; height: 2px;
-  background: var(--orange);
-}
-.hero__stage-num {
-  font-family: var(--f-stencil);
-  color: rgba(245,239,230,.45);
-  font-size: 11px;
-  margin-left: 8px;
-}
-
-.hero__mega {
-  position: absolute;
-  left: 0; right: 0; top: 0; bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer-events: none;
-  z-index: 3;
 }
-.hero__mega-word {
+.opener__bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(255,90,31,.14) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 100%, rgba(11,27,43,1) 0%, #040a13 100%);
+}
+.opener__scan {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(245,239,230,.012) 3px 4px);
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+.opener__car {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate3d(-50%,-50%,0) scale(1.05);
+  width: min(1500px, 100vw);
+  aspect-ratio: 16/9;
+  background: url("https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=2000&q=75&auto=format&fit=crop") center/cover no-repeat;
+  filter: grayscale(1) brightness(.22) contrast(1.15) saturate(.3);
+  opacity: .7;
+  will-change: filter, opacity;
+  transition: filter .25s linear, opacity .25s linear;
+}
+.opener__car::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 60%, transparent 25%, rgba(0,0,0,.85) 85%);
+}
+.opener__eyebrow {
+  position: absolute;
+  top: 18vh; left: 0; right: 0;
+  text-align: center;
+  z-index: 4;
   font-family: var(--f-stencil);
-  font-size: clamp(80px, 22vw, 340px);
-  line-height: .85;
-  letter-spacing: .02em;
+  letter-spacing: .5em;
+  font-size: 11px;
+  color: var(--orange);
+  text-transform: uppercase;
+  opacity: .85;
+}
+.opener__eyebrow::before, .opener__eyebrow::after {
+  content: "—";
+  color: var(--orange);
+  margin: 0 14px;
+  opacity: .6;
+}
+.opener__word {
+  position: relative;
+  z-index: 3;
+  font-family: var(--f-stencil);
+  font-size: clamp(70px, 20vw, 300px);
+  line-height: .88;
+  letter-spacing: .04em;
   color: var(--cream);
   text-transform: uppercase;
-  white-space: nowrap;
-  transition: opacity .35s var(--ease), transform .55s var(--ease), letter-spacing .55s var(--ease);
   mix-blend-mode: difference;
-  opacity: 0;
-  transform: translateY(40px) scale(.9);
-  position: absolute;
-  will-change: opacity, transform;
+  white-space: nowrap;
   text-align: center;
+  will-change: opacity, transform;
+  transition: opacity .35s var(--ease), transform .55s var(--ease);
 }
-.hero__mega-word.is-active {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  letter-spacing: .04em;
+.opener__word .dot { color: var(--orange); }
+.opener__word.swap-out { opacity: 0; transform: translateY(-24px) scale(1.04); }
+.opener__word.swap-in  { animation: swapIn .45s var(--ease) both; }
+@keyframes swapIn {
+  from { opacity: 0; transform: translateY(26px) scale(.94); letter-spacing: 0; }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    letter-spacing: .04em; }
 }
-.hero__mega-word.is-past {
-  opacity: 0;
-  transform: translateY(-50px) scale(1.08);
+.opener__counter {
+  position: absolute;
+  bottom: 7vh; left: 6vw;
+  z-index: 4;
+  font-family: var(--f-stencil);
+  letter-spacing: .35em;
+  font-size: 11px;
+  color: rgba(245,239,230,.55);
 }
-.hero__mega-word .dot {
+.opener__counter strong {
   color: var(--orange);
-  -webkit-text-stroke: 0;
+  font-weight: 400;
+  font-size: 18px;
+  margin-right: 8px;
 }
-
-.hero__title {
+.opener__rail {
   position: absolute;
   left: 6vw; right: 6vw;
-  top: 18vh;
-  font-family: var(--f-display);
-  font-size: clamp(48px, 11vw, 180px);
-  line-height: .88;
-  color: var(--cream);
-  pointer-events: none;
-  letter-spacing: -.01em;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity .8s var(--ease), transform .8s var(--ease);
+  bottom: 11vh;
+  height: 2px;
+  background: rgba(245,239,230,.12);
   z-index: 4;
 }
-.hero.hero--final .hero__title { opacity: 1; transform: none; }
-.hero__title em {
-  font-style: normal;
-  color: var(--orange);
-  display: block;
+.opener__rail-fill {
+  height: 100%;
+  width: 0;
+  background: var(--orange);
+  transition: width .15s linear;
+}
+.opener__hint {
+  position: absolute;
+  right: 6vw; bottom: 7vh;
+  z-index: 4;
+  font-family: var(--f-stencil);
+  letter-spacing: .4em;
+  font-size: 11px;
+  color: rgba(245,239,230,.45);
+}
+@media (max-width: 700px) {
+  .opener { height: 260vh; }
+  .opener__counter, .opener__hint { font-size: 10px; }
+  .opener__eyebrow { top: 13vh; font-size: 10px; letter-spacing: .3em; }
 }
 
+/* ===== HERO (STATIC, LIVELY) ===== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  padding: 130px 4vw 80px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background: #050d17;
+}
+.hero__photo {
+  position: absolute; inset: 0;
+  background: url("https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=2400&q=85&auto=format&fit=crop") center/cover no-repeat;
+  filter: saturate(1.18) contrast(1.05) brightness(.9);
+  z-index: 0;
+  will-change: transform;
+}
+.hero__photo::after {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(5,13,23,.8) 0%, rgba(5,13,23,.3) 55%, rgba(5,13,23,.7) 100%),
+    linear-gradient(180deg, rgba(5,13,23,.4) 0%, transparent 35%, rgba(5,13,23,.82) 100%);
+}
+.hero__inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--f-stencil);
+  letter-spacing: .4em;
+  font-size: 12px;
+  color: var(--orange);
+  margin-bottom: 28px;
+  text-transform: uppercase;
+  background: rgba(5,13,23,.45);
+  padding: 10px 14px;
+  border-left: 3px solid var(--orange);
+}
+.hero__title {
+  font-family: var(--f-display);
+  font-size: clamp(54px, 12vw, 200px);
+  line-height: .86;
+  color: var(--cream);
+  letter-spacing: -.01em;
+}
+.hero__title em { font-style: normal; color: var(--orange); display: block; }
 .hero__sub {
-  position: absolute;
-  left: 6vw;
-  top: calc(18vh + clamp(140px, 24vw, 380px));
-  max-width: 560px;
+  margin-top: 32px;
+  max-width: 580px;
   font-family: var(--f-serif);
   font-style: italic;
   font-size: clamp(17px, 1.6vw, 22px);
   color: var(--cream);
-  opacity: 0;
-  line-height: 1.45;
+  line-height: 1.5;
   border-left: 3px solid var(--orange);
   padding-left: 20px;
-  transition: opacity .8s var(--ease) .1s;
-  z-index: 4;
 }
-.hero.hero--final .hero__sub { opacity: .88; }
-.hero.hero--final .hero__ctas { opacity: 1; transform: none; }
-.hero__ctas { opacity: 0; transform: translateY(16px); transition: opacity .7s var(--ease) .2s, transform .7s var(--ease) .2s; }
-
 .hero__ctas {
-  position: absolute;
-  left: 6vw;
-  top: calc(18vh + clamp(260px, 38vw, 540px));
+  margin-top: 36px;
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
-  z-index: 4;
-  max-width: 640px;
 }
 .hero__ctas .btn {
   font-family: var(--f-stencil);
@@ -349,49 +372,33 @@ body::before {
   padding: 14px 22px;
   text-decoration: none;
   text-transform: uppercase;
-  transition: transform .2s, background .2s, color .2s;
+  transition: transform .2s, background .2s, color .2s, border-color .2s;
   display: inline-flex; align-items: center; gap: 10px;
-  will-change: transform;
 }
 .hero__ctas .btn--primary { background: var(--orange); color: var(--navy); border: 2px solid var(--orange); }
 .hero__ctas .btn--primary:hover { transform: translateY(-2px); }
-.hero__ctas .btn--ghost { background: transparent; color: var(--cream); border: 2px solid rgba(245,239,230,.4); }
+.hero__ctas .btn--ghost { background: transparent; color: var(--cream); border: 2px solid rgba(245,239,230,.35); }
 .hero__ctas .btn--ghost:hover { border-color: var(--orange); color: var(--orange); }
 .hero__ctas .btn small { font-size: 10px; opacity: .7; letter-spacing: .1em; }
-@media (max-width: 700px) { .hero__ctas { bottom: 20vh; left: 5vw; } .hero__ctas .btn { font-size: 11px; padding: 12px 16px; } }
-
-.hero__attr {
-  position: absolute;
-  right: 5vw; bottom: 11vh;
+.hero__trust {
+  margin-top: 40px;
+  display: flex; flex-wrap: wrap; gap: 22px;
   font-family: var(--f-stencil);
-  font-size: 12px;
-  letter-spacing: .35em;
-  color: var(--cream);
-  opacity: 0;
-  transition: opacity .6s var(--ease);
-  text-align: right;
-  line-height: 1.6;
-}
-.hero__attr span { color: var(--orange); display: block; font-size: 11px; margin-top: 4px; }
-
-.hero__scroll-hint {
-  position: absolute;
-  left: 50%; bottom: 3vh;
-  transform: translateX(-50%);
-  font-family: var(--f-stencil);
+  letter-spacing: .22em;
   font-size: 11px;
-  letter-spacing: .5em;
-  color: var(--cream);
-  opacity: .4;
+  color: rgba(245,239,230,.7);
+  border-top: 1px solid rgba(245,239,230,.18);
+  padding-top: 22px;
+  max-width: 760px;
+  text-transform: uppercase;
+}
+.hero__trust span::before { content: "· "; color: var(--orange); margin-right: 2px; }
+.hero__trust span:first-child::before { display: none; }
+@media (max-width: 700px) {
+  .hero { padding: 110px 6vw 70px; min-height: 92vh; }
+  .hero__ctas .btn { font-size: 11px; padding: 12px 16px; }
 }
 
-@media (max-width: 700px) {
-  .hero { height: 280vh; }
-  .hero__title { top: 14vh; font-size: clamp(42px, 14vw, 80px); }
-  .hero__sub { top: auto; bottom: 24vh; font-size: 15px; padding-left: 14px; }
-  .hero__stage { left: 5vw; bottom: 16vh; font-size: 11px; }
-  .hero__attr { bottom: 6vh; right: 5vw; }
-}
 
 /* ===== WORK ORDER ===== */
 .workorder {
@@ -857,49 +864,45 @@ body::before {
   <a href="#book" class="nav__cta">Book Estimate</a>
 </nav>
 
+<!-- OPENING SEQUENCE -->
+<section class="opener" id="opener">
+  <div class="opener__sticky">
+    <div class="opener__bg"></div>
+    <div class="opener__car" id="openerCar"></div>
+    <div class="opener__scan"></div>
+
+    <div class="opener__eyebrow">THE PROCESS</div>
+    <div class="opener__word" id="openerWord">COLLISION<span class="dot">.</span></div>
+
+    <div class="opener__counter"><strong id="openerNum">01</strong>OF 06</div>
+    <div class="opener__rail"><div class="opener__rail-fill" id="openerFill"></div></div>
+    <div class="opener__hint">SCROLL ↓</div>
+  </div>
+</section>
+
 <!-- HERO -->
 <section class="hero" id="hero">
-  <div class="hero__sticky">
-    <div class="hero__bg"></div>
-    <div class="hero__layer hero__layer--damaged" id="heroDamaged"></div>
-    <div class="hero__layer hero__layer--final" id="heroFinal"></div>
-    <div class="hero__paint-sweep" id="heroSweep"></div>
-    <div class="hero__scan"></div>
-
-    <div class="hero__mega" aria-hidden="true">
-      <span class="hero__mega-word" data-s="0">COLLISION<span class="dot">.</span></span>
-      <span class="hero__mega-word" data-s="1">STRIP<span class="dot">.</span></span>
-      <span class="hero__mega-word" data-s="2">STRAIGHTEN<span class="dot">.</span></span>
-      <span class="hero__mega-word" data-s="3">PRIME<span class="dot">.</span></span>
-      <span class="hero__mega-word" data-s="4">COLOR<span class="dot">.</span></span>
-      <span class="hero__mega-word" data-s="5">DELIVERED<span class="dot">.</span></span>
-    </div>
-
+  <div class="hero__photo"></div>
+  <div class="hero__inner">
+    <div class="hero__eyebrow">ANAHEIM · EST 2004</div>
     <h1 class="hero__title">
       We bring<br>
       <em>cars back.</em>
     </h1>
-
     <p class="hero__sub">
       Anaheim's last real body shop. 22 years on East La Palma. Free estimate in 60 seconds — pick a time, we handle the rest.
     </p>
-
     <div class="hero__ctas">
       <a href="#book" class="btn btn--primary">Book Free Estimate →</a>
       <a href="#tow" class="btn btn--ghost">Need a tow?</a>
       <a href="tel:+17142389253" class="btn btn--ghost">Or call <small>(714) 238-9253</small></a>
     </div>
-
-    <div class="hero__stage">
-      <span class="hero__stage-label" id="heroStage">COLLISION</span>
-      <span class="hero__stage-num" id="heroStageNum">01 / 06</span>
+    <div class="hero__trust">
+      <span>22 YEARS ON LA PALMA</span>
+      <span>LIFETIME WARRANTY</span>
+      <span>EVERY INSURANCE</span>
+      <span>137 · 4.5★ YELP</span>
     </div>
-
-    <div class="hero__attr" id="heroSig">
-      BROUGHT BACK BY<span>PRESTIGE · ANAHEIM · EST 2004</span>
-    </div>
-
-    <div class="hero__scroll-hint">SCROLL ↓</div>
   </div>
 </section>
 
@@ -1210,72 +1213,65 @@ body::before {
     }
   }
 
-  /* ---------- HERO SCROLL (opacity-only, rAF-throttled) ---------- */
-  var hero    = document.getElementById('hero');
-  var finalL  = document.getElementById('heroFinal');
-  var sweep   = document.getElementById('heroSweep');
-  var stage   = document.getElementById('heroStage');
-  var stageN  = document.getElementById('heroStageNum');
-  var sig     = document.getElementById('heroSig');
-  var megaWords = document.querySelectorAll('.hero__mega-word');
-  var stages  = ['COLLISION','STRIP','STRAIGHTEN','PRIME','COLOR','DELIVERED'];
-  var lastIdx = -1;
-  var rafPending = false;
-  var cachedTotal = 0;
+  /* ---------- OPENING SEQUENCE ---------- */
+  var opener = document.getElementById('opener');
+  var car    = document.getElementById('openerCar');
+  var word   = document.getElementById('openerWord');
+  var numEl  = document.getElementById('openerNum');
+  var fillEl = document.getElementById('openerFill');
+  var stages = ['COLLISION','STRIP','STRAIGHTEN','PRIME','COLOR','DELIVERED'];
+  var lastIdx = -1, rafPending = false, openTotal = 0;
 
-  function measureHero(){ if (hero) cachedTotal = hero.offsetHeight - window.innerHeight; }
-  measureHero();
-  window.addEventListener('resize', measureHero, { passive: true });
+  function measureOpener(){ if (opener) openTotal = opener.offsetHeight - window.innerHeight; }
+  measureOpener();
+  window.addEventListener('resize', measureOpener, { passive: true });
 
-  function applyHero(){
+  function applyOpener(){
     rafPending = false;
-    if (!hero || !finalL) return;
-    var rect = hero.getBoundingClientRect();
-    if (cachedTotal <= 0) return;
-    var raw = Math.min(Math.max(-rect.top / cachedTotal, 0), 1);
-    // ease-out so early scroll = visible change
-    var p = 1 - Math.pow(1 - raw, 1.8);
+    if (!opener) return;
+    var rect = opener.getBoundingClientRect();
+    if (openTotal <= 0) return;
+    var p = Math.min(Math.max(-rect.top / openTotal, 0), 1);
 
-    // Only update if user can see hero (rect.bottom > 0)
-    if (rect.bottom < -window.innerHeight) return;
+    if (rect.bottom < -40) return;
 
-    finalL.style.opacity = p.toFixed(3);
+    // progress bar
+    if (fillEl) fillEl.style.width = (p * 100).toFixed(2) + '%';
 
-    if (sweep) {
-      var sp = Math.min(Math.max((p - 0.45) / 0.35, 0), 1);
-      sweep.style.transform = 'translate3d('+((sp-1)*110)+'%,0,0)';
-      sweep.style.opacity = (sp > 0 && sp < 1) ? '1' : '0';
+    // car filter evolves with progress (dark broken → bright gleaming)
+    if (car) {
+      var g  = (1 - p).toFixed(2);
+      var br = (0.22 + p * 0.85).toFixed(2);
+      var sa = (0.3  + p * 0.9).toFixed(2);
+      var op = (0.7  + p * 0.3).toFixed(2);
+      car.style.filter  = 'grayscale('+g+') brightness('+br+') contrast(1.15) saturate('+sa+')';
+      car.style.opacity = op;
     }
 
-    // Stage word covers 0 → 0.85; last 15% reveals the title.
-    var megaP = Math.min(p / 0.85, 1);
-    var idx = Math.min(stages.length - 1, Math.floor(megaP * stages.length * .9999));
+    var idx = Math.min(stages.length - 1, Math.floor(p * stages.length * .9999));
     if (idx !== lastIdx) {
       lastIdx = idx;
-      if (stage)  stage.textContent  = stages[idx];
-      if (stageN) stageN.textContent = String(idx+1).padStart(2,'0') + ' / 0' + stages.length;
-      megaWords.forEach(function(w, i){
-        w.classList.toggle('is-active', i === idx);
-        w.classList.toggle('is-past',   i <  idx);
-      });
+      if (numEl) numEl.textContent = String(idx+1).padStart(2,'0');
+      if (word) {
+        word.classList.remove('swap-in');
+        word.classList.add('swap-out');
+        setTimeout(function(){
+          word.innerHTML = stages[idx] + '<span class="dot">.</span>';
+          word.classList.remove('swap-out');
+          // force reflow so animation restarts
+          void word.offsetWidth;
+          word.classList.add('swap-in');
+        }, 160);
+      }
     }
-
-    var isFinal = p > 0.85;
-    if (hero.classList.contains('hero--final') !== isFinal) {
-      hero.classList.toggle('hero--final', isFinal);
-    }
-
-    if (sig) sig.style.opacity = p > 0.92 ? '1' : '0';
   }
 
   function onScroll(){
-    if (!rafPending) { rafPending = true; requestAnimationFrame(applyHero); }
+    if (!rafPending) { rafPending = true; requestAnimationFrame(applyOpener); }
   }
   if (!reduced) {
     window.addEventListener('scroll', onScroll, { passive: true });
-    applyHero();
-  } else if (finalL) {
-    finalL.style.opacity = 1;
+    applyOpener();
   }
 
   /* ---------- REVEAL ---------- */
